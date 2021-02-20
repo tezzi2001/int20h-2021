@@ -30,11 +30,33 @@ public class AdvertisementDto {
 
     @SneakyThrows
     public AdvertisementLost toAdvertisementLost(User user, MultipartFile photo) {
-        return new AdvertisementLost(title, description, photo.getBytes(), photo.getOriginalFilename(), location, phone, species, date, user);
+        byte[] bytes;
+        String originalFileName;
+
+        if (photo == null) {
+            bytes = null;
+            originalFileName = null;
+        } else {
+            bytes = photo.getBytes();
+            originalFileName = photo.getOriginalFilename();
+        }
+
+        return new AdvertisementLost(title, description, bytes, originalFileName, location, phone, species, date, user);
     }
 
     @SneakyThrows
     public AdvertisementFound toAdvertisementFound(User user, MultipartFile photo) {
-        return new AdvertisementFound(title, description, photo.getBytes(), photo.getOriginalFilename(), location, phone, species, date, user);
+        byte[] bytes;
+        String originalFileName;
+
+        if (photo == null) {
+            bytes = null;
+            originalFileName = null;
+        } else {
+            bytes = photo.getBytes();
+            originalFileName = photo.getOriginalFilename();
+        }
+
+        return new AdvertisementFound(title, description, bytes, originalFileName, location, phone, species, date, user);
     }
 }
