@@ -24,7 +24,7 @@ public class AccessService {
             if (email.equals(userT.getEmail()) && passwordEncoder.matches(rawPassword, userT.getPassword())) {
                 user.setName(userT.getName());
                 user.setSurname(userT.getSurname());
-                return email + '$' + System.currentTimeMillis();
+                return email + '%' + System.currentTimeMillis();
             }
         }
 
@@ -38,7 +38,7 @@ public class AccessService {
             String password = passwordEncoder.encode(rawPassword);
             User user = new User(email, password, name, surname);
             userRepository.save(user);
-            return email + '$' + System.currentTimeMillis();
+            return email + '%' + System.currentTimeMillis();
         }
 
         return "";

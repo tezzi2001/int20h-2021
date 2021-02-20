@@ -41,6 +41,8 @@ public class AccessController {
     @GetMapping("/fetchUser")
     public User fetchUser(HttpServletRequest request) {
         String sessionId = request.getHeader("Authorization");
-        return accessService.fetchUser(sessionId);
+        String bearer = sessionId.split("Bearer ")[1];
+        String s = bearer.split("%")[0];
+        return accessService.fetchUser(s);
     }
 }
