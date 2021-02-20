@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 import static com.bondarenko.int20h2021.filter.AddCorsResponseHeaderFilter.getAuthorizationHeader;
 
@@ -19,7 +20,7 @@ public class AdvertisementController {
     private final AdvertisementService advertisementService;
 
     @PostMapping("/createAdvertisementLost")
-    public void createAdvertisementLost(@RequestParam("advertisement") AdvertisementDto advertisementDto, @RequestParam("photo") MultipartFile photo, HttpServletRequest request) {
+    public void createAdvertisementLost(@RequestParam("advertisement") Map<String, String> advertisementDto, @RequestParam("photo") MultipartFile photo, HttpServletRequest request) {
         System.out.println("advertisement " + advertisementDto.toString());
         System.out.println("photo " + photo.getOriginalFilename());
 //        advertisementService.createAdvertisementLost(advertisementDto, photo, getAuthorizationHeader(request));
