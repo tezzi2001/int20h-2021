@@ -4,11 +4,13 @@ import com.bondarenko.int20h2021.domain.json.AdvertisementDto;
 import com.bondarenko.int20h2021.domain.json.AdvertisementJson;
 import com.bondarenko.int20h2021.service.AdvertisementService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.List;
 
 import static com.bondarenko.int20h2021.filter.AddCorsResponseHeaderFilter.getAuthorizationHeader;
@@ -19,6 +21,7 @@ public class AdvertisementController {
     private final AdvertisementService advertisementService;
 
     @PostMapping("/createAdvertisementLost")
+    @SneakyThrows
     public void createAdvertisementLost(@RequestParam("advertisement") String advertisement, @RequestParam("photo") MultipartFile photo, HttpServletRequest request) {
         System.out.println("advertisement " + advertisement);
         System.out.println("photo " + photo.getOriginalFilename());
@@ -35,6 +38,13 @@ public class AdvertisementController {
         AdvertisementDto advertisementDto = new AdvertisementDto(title, description, location, phone, species);
         System.out.println("advertisementDto " + advertisementDto.toString());
         advertisementService.createAdvertisementLost(advertisementDto, photo, getAuthorizationHeader(request));
+
+        String destination = "/images/" + photo.getOriginalFilename();
+        File file = new File(destination);
+        photo.transferTo(file);
+        System.out.println(file.getPath());
+        System.out.println(file.getAbsolutePath());
+        System.out.println(file.getName());
     }
 
     @PostMapping("/createAdvertisementFound")

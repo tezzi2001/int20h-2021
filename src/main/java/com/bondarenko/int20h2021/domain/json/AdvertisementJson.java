@@ -6,7 +6,6 @@ import com.bondarenko.int20h2021.domain.entity.User;
 import lombok.Data;
 import lombok.SneakyThrows;
 
-import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
