@@ -1,12 +1,9 @@
 package com.bondarenko.int20h2021.controller;
 
 import com.bondarenko.int20h2021.domain.entity.User;
-import com.bondarenko.int20h2021.domain.json.UserWithSession;
 import com.bondarenko.int20h2021.service.AccessService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -17,8 +14,8 @@ public class AccessController {
     private final AccessService accessService;
 
     @PostMapping("/authentication")
-    public UserWithSession signIn(@RequestBody User user, HttpServletResponse response) {
-        String sessionId = accessService.signIn(user.getEmail(), user.getPassword());
+    public User signIn(@RequestBody User user, HttpServletResponse response) {
+        String sessionId = accessService.signIn(user);
 
         if (sessionId.equals("")) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -28,11 +25,11 @@ public class AccessController {
         response.addCookie(cookie);
 
         user.setPassword("");
-        return new UserWithSession(user.getEmail(), user.getPassword(), user.getName(), user.getSurname(), sessionId);
+        return user;
     }
 
     @PostMapping("/registration")
-    public UserWithSession signUp(@RequestBody User user, HttpServletResponse response) {
+    public User signUp(@RequestBody User user, HttpServletResponse response) {
         String sessionId = accessService.signUp(user.getEmail(), user.getPassword(), user.getName(), user.getSurname());
 
         if (sessionId.equals("")) {
@@ -43,6 +40,11 @@ public class AccessController {
         response.addCookie(cookie);
 
         user.setPassword("");
-        return new UserWithSession(user.getEmail(), user.getPassword(), user.getName(), user.getSurname(), sessionId);
+        return user;
+    }
+
+    @GetMapping("/fetchUser")
+    public User fetchUser(@CookieValue("sessionId") String sessionId) {
+        return accessService.fetchUser(sessionId.split("$")[0]);
     }
 }

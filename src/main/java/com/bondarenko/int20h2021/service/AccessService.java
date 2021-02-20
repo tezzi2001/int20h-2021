@@ -14,12 +14,16 @@ public class AccessService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public String signIn(String email, String rawPassword) {
+    public String signIn(User user) {
+        String email = user.getEmail();
+        String rawPassword = user.getPassword();
         Optional<User> userOptional = userRepository.findById(email);
 
         if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            if (email.equals(user.getEmail()) && passwordEncoder.matches(rawPassword, user.getPassword())) {
+            User userT = userOptional.get();
+            if (email.equals(userT.getEmail()) && passwordEncoder.matches(rawPassword, userT.getPassword())) {
+                user.setName(userT.getName());
+                user.setSurname(userT.getSurname());
                 return email + '$' + System.currentTimeMillis();
             }
         }
@@ -38,5 +42,9 @@ public class AccessService {
         }
 
         return "";
+    }
+
+    public User fetchUser(String email) {
+        return userRepository.findById(email).orElse(new User());
     }
 }
