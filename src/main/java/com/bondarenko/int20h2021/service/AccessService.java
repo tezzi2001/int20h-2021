@@ -14,29 +14,29 @@ public class AccessService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public String signIn(String login, String rawPassword) {
-        Optional<User> userOptional = userRepository.findById(login);
+    public String signIn(String email, String rawPassword) {
+        Optional<User> userOptional = userRepository.findById(email);
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            if (login.equals(user.getLogin()) && passwordEncoder.matches(rawPassword, user.getPassword())) {
-                return login + '$' + System.currentTimeMillis();
+            if (email.equals(user.getEmail()) && passwordEncoder.matches(rawPassword, user.getPassword())) {
+                return email + '$' + System.currentTimeMillis();
             }
         }
 
         return "";
     }
 
-    public boolean signUp(String login, String rawPassword) {
-        Optional<User> userOptional = userRepository.findById(login);
+    public String signUp(String email, String rawPassword, String name, String surname) {
+        Optional<User> userOptional = userRepository.findById(email);
 
         if (!userOptional.isPresent()) {
             String password = passwordEncoder.encode(rawPassword);
-            User user = new User(login, password);
+            User user = new User(email, password, name, surname);
             userRepository.save(user);
-            return true;
+            return email + '$' + System.currentTimeMillis();
         }
 
-        return false;
+        return "";
     }
 }

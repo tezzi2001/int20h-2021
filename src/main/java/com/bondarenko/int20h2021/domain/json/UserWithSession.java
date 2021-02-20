@@ -9,8 +9,8 @@ import lombok.EqualsAndHashCode;
 public class UserWithSession extends User {
     private final String sessionId;
 
-    public UserWithSession(String login, String password, String sessionId) {
-        super(login, password);
+    public UserWithSession(String email, String password, String name, String surname, String sessionId) {
+        super(email, password, name, surname);
         this.sessionId = sessionId;
     }
 }

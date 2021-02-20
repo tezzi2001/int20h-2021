@@ -16,9 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 public class AccessController {
     private final AccessService accessService;
 
-    @PostMapping("/signIn")
+    @PostMapping("/authentication")
     public UserWithSession signIn(@RequestBody User user, HttpServletResponse response) {
-        String sessionId = accessService.signIn(user.getLogin(), user.getPassword());
+        String sessionId = accessService.signIn(user.getEmail(), user.getPassword());
+
         if (sessionId.equals("")) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -27,18 +28,21 @@ public class AccessController {
         response.addCookie(cookie);
 
         user.setPassword("");
-        return new UserWithSession(user.getLogin(), user.getPassword(), sessionId);
+        return new UserWithSession(user.getEmail(), user.getPassword(), user.getName(), user.getSurname(), sessionId);
     }
 
-    @PostMapping("/signUp")
-    public User signUp(@RequestBody User user, HttpServletResponse response) {
-        boolean result = accessService.signUp(user.getLogin(), user.getPassword());
+    @PostMapping("/registration")
+    public UserWithSession signUp(@RequestBody User user, HttpServletResponse response) {
+        String sessionId = accessService.signUp(user.getEmail(), user.getPassword(), user.getName(), user.getSurname());
 
-        if (!result) {
+        if (sessionId.equals("")) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
 
+        Cookie cookie = new Cookie("sessionId", sessionId);
+        response.addCookie(cookie);
+
         user.setPassword("");
-        return user;
+        return new UserWithSession(user.getEmail(), user.getPassword(), user.getName(), user.getSurname(), sessionId);
     }
 }

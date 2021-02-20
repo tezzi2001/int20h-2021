@@ -13,7 +13,11 @@ import javax.persistence.Id;
 @Data
 public class User {
     @Id
-    private String login;
+    private String email;
 
     private String password;
+
+    private String name;
+
+    private String surname;
 }
