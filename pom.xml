@@ -65,6 +65,16 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.paulcwarren</groupId>
+            <artifactId>spring-content-jpa</artifactId>
+            <version>1.0.0.M10</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.paulcwarren</groupId>
+            <artifactId>spring-content-rest</artifactId>
+            <version>1.0.0.M10</version>
+        </dependency>
     </dependencies>
 
     <build>
