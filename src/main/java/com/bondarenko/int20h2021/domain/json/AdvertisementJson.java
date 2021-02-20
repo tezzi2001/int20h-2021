@@ -8,6 +8,7 @@ import lombok.SneakyThrows;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 
@@ -59,12 +60,19 @@ public class AdvertisementJson {
 
     @SneakyThrows
     private String createPhotoUrl(byte[] photo, String photoName) {
-        InputStream inputStream = new ByteArrayInputStream(photo);
+        return save(photo, photoName);
+    }
 
-        File targetFile = new File("src/main/resources/" + photoName);
-        OutputStream outStream = new FileOutputStream(targetFile);
-        outStream.write(photo);
+    String RESOURCES_DIR = this.getClass().getResource("/")
+            .getPath();
 
-        return targetFile.toURL().toString();
+    private String save(byte[] content, String imageName) throws Exception {
+        Path newFile = Paths.get(RESOURCES_DIR + new Date().getTime() + "-" + imageName);
+        Files.createDirectories(newFile.getParent());
+
+        Files.write(newFile, content);
+
+        return newFile.toAbsolutePath()
+                .toString();
     }
 }

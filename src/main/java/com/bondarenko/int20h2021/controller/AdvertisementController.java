@@ -22,7 +22,6 @@ public class AdvertisementController {
     public void createAdvertisementLost(@RequestParam("advertisement") String advertisement, @RequestParam("photo") MultipartFile photo, HttpServletRequest request) {
         System.out.println("advertisement " + advertisement);
         System.out.println("photo " + photo.getOriginalFilename());
-
         String[] pairs = advertisement
                 .replaceAll("}", "")
                 .replaceAll("\"", "")
