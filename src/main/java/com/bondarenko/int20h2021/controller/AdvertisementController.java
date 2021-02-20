@@ -38,13 +38,6 @@ public class AdvertisementController {
         AdvertisementDto advertisementDto = new AdvertisementDto(title, description, location, phone, species);
         System.out.println("advertisementDto " + advertisementDto.toString());
         advertisementService.createAdvertisementLost(advertisementDto, photo, getAuthorizationHeader(request));
-
-        String destination = "/images/" + photo.getOriginalFilename();
-        File file = new File(destination);
-        photo.transferTo(file);
-        System.out.println(file.getPath());
-        System.out.println(file.getAbsolutePath());
-        System.out.println(file.getName());
     }
 
     @PostMapping("/createAdvertisementFound")

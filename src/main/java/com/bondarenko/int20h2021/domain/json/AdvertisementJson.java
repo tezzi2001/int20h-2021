@@ -6,9 +6,6 @@ import com.bondarenko.int20h2021.domain.entity.User;
 import lombok.Data;
 import lombok.SneakyThrows;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Date;
 
 @Data
@@ -59,16 +56,6 @@ public class AdvertisementJson {
 
     @SneakyThrows
     private String createPhotoUrl(byte[] photo, String photoName) {
-        return save(photo, photoName);
-    }
-
-    private String save(byte[] content, String imageName) throws Exception {
-        Path newFile = Paths.get(new Date().getTime() + "-" + imageName);
-        Files.createDirectories(newFile.getParent());
-
-        Files.write(newFile, content);
-
-        return newFile.toAbsolutePath()
-                .toString();
+        return "";
     }
 }
