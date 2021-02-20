@@ -9,6 +9,7 @@ import com.bondarenko.int20h2021.repository.AdvertisementFoundRepository;
 import com.bondarenko.int20h2021.repository.AdvertisementLostRepository;
 import com.bondarenko.int20h2021.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,6 +65,10 @@ public class AdvertisementService {
     }
 
     public List<AdvertisementJson> getAllAdvertisementFound(MultiValueMap<String, String> filters) {
+        if (filters.containsKey("city")) {
+            List<String> cities = filters.get("city");
+//            advertisementFoundRepository.findAll(new PageRequest());
+        }
         List<AdvertisementFound> advertisementsFound = advertisementFoundRepository.findAll();
         return advertisementsFound.stream()
                 .map(AdvertisementJson::new)

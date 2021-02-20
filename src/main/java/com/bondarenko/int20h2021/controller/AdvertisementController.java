@@ -18,12 +18,12 @@ import static com.bondarenko.int20h2021.filter.AddCorsResponseHeaderFilter.getAu
 public class AdvertisementController {
     private final AdvertisementService advertisementService;
 
-    @PostMapping(value = "/createAdvertisementLost", consumes = {"multipart/form-data", "application/json"})
+    @PostMapping(value = "/createAdvertisementLost", consumes = {"multipart/form-data"})
     public void createAdvertisementLost(@RequestPart("advertisement") AdvertisementDto advertisementDto, @RequestPart("photo") MultipartFile photo, HttpServletRequest request) {
         advertisementService.createAdvertisementLost(advertisementDto, photo, getAuthorizationHeader(request));
     }
 
-    @PostMapping(value = "/createAdvertisementFound", consumes = {"multipart/form-data", "application/json"})
+    @PostMapping(value = "/createAdvertisementFound", consumes = {"multipart/form-data"})
     public void createAdvertisementFound(@RequestPart("advertisement") AdvertisementDto advertisementDto, @RequestPart("photo") MultipartFile photo, HttpServletRequest request) {
         advertisementService.createAdvertisementFound(advertisementDto, photo, getAuthorizationHeader(request));
     }
