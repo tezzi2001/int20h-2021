@@ -63,11 +63,8 @@ public class AdvertisementJson {
         return save(photo, photoName);
     }
 
-    String RESOURCES_DIR = this.getClass().getResource("/")
-            .getPath();
-
     private String save(byte[] content, String imageName) throws Exception {
-        Path newFile = Paths.get(RESOURCES_DIR + new Date().getTime() + "-" + imageName);
+        Path newFile = Paths.get(new Date().getTime() + "-" + imageName);
         Files.createDirectories(newFile.getParent());
 
         Files.write(newFile, content);
