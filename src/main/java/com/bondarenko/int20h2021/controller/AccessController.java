@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.bondarenko.int20h2021.filter.AddCorsResponseHeaderFilter.getAuthorizationHeader;
+
 @RestController
 @RequiredArgsConstructor
 public class AccessController {
@@ -40,9 +42,7 @@ public class AccessController {
 
     @GetMapping("/fetchUser")
     public User fetchUser(HttpServletRequest request) {
-        String sessionId = request.getHeader("Authorization");
-        String bearer = sessionId.split("Bearer ")[1];
-        String s = bearer.split("%")[0];
+        String s = getAuthorizationHeader(request);
         return accessService.fetchUser(s);
     }
 }
