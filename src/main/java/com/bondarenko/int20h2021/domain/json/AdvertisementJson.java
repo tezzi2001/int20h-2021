@@ -61,10 +61,10 @@ public class AdvertisementJson {
     private String createPhotoUrl(byte[] photo, String photoName) {
         InputStream inputStream = new ByteArrayInputStream(photo);
 
-        File targetFile = new File("src/main/resources/targetFile.tmp");
+        File targetFile = new File("src/main/resources/" + photoName);
         OutputStream outStream = new FileOutputStream(targetFile);
         outStream.write(photo);
 
-        return targetFile.toURI().toURL().toString();
+        return targetFile.toURL().toString();
     }
 }
