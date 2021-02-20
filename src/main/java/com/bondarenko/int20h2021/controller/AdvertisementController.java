@@ -19,12 +19,12 @@ public class AdvertisementController {
     private final AdvertisementService advertisementService;
 
     @PostMapping("/createAdvertisementLost")
-    public void createAdvertisementLost(@RequestPart("advertisement") AdvertisementDto advertisementDto, @RequestPart("photo") MultipartFile photo, HttpServletRequest request) {
+    public void createAdvertisementLost(@RequestParam("advertisement") AdvertisementDto advertisementDto, @RequestParam("photo") MultipartFile photo, HttpServletRequest request) {
         advertisementService.createAdvertisementLost(advertisementDto, photo, getAuthorizationHeader(request));
     }
 
     @PostMapping("/createAdvertisementFound")
-    public void createAdvertisementFound(@RequestPart("advertisement") AdvertisementDto advertisementDto, @RequestPart("photo") MultipartFile photo, HttpServletRequest request) {
+    public void createAdvertisementFound(@RequestParam("advertisement") AdvertisementDto advertisementDto, @RequestParam("photo") MultipartFile photo, HttpServletRequest request) {
         advertisementService.createAdvertisementFound(advertisementDto, photo, getAuthorizationHeader(request));
     }
 
