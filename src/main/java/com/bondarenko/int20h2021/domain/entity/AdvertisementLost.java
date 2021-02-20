@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @NoArgsConstructor
@@ -29,11 +30,13 @@ public class AdvertisementLost {
 
     private String species;
 
+    private Date date;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    public AdvertisementLost(String title, String description, byte[] photo, String photoName, String location, String phone, String species, User user) {
+    public AdvertisementLost(String title, String description, byte[] photo, String photoName, String location, String phone, String species, Date date, User user) {
         this.title = title;
         this.description = description;
         this.photo = photo;
@@ -41,6 +44,7 @@ public class AdvertisementLost {
         this.location = location;
         this.phone = phone;
         this.species = species;
+        this.date = date;
         this.user = user;
     }
 }

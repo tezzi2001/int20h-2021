@@ -8,6 +8,7 @@ import lombok.SneakyThrows;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Date;
 
 @Data
 public class AdvertisementJson {
@@ -25,6 +26,8 @@ public class AdvertisementJson {
 
     private String species;
 
+    private Date date;
+
     private String user;
 
     public AdvertisementJson(AdvertisementFound advertisementFound) {
@@ -35,6 +38,7 @@ public class AdvertisementJson {
         this.location = advertisementFound.getLocation();
         this.phone = advertisementFound.getPhone();
         this.species = advertisementFound.getSpecies();
+        this.date = advertisementFound.getDate();
         User userT = advertisementFound.getUser();
         this.user = userT.getName() + ' ' + userT.getSurname();
     }
@@ -47,6 +51,7 @@ public class AdvertisementJson {
         this.location = advertisementLost.getLocation();
         this.phone = advertisementLost.getPhone();
         this.species = advertisementLost.getSpecies();
+        this.date = advertisementLost.getDate();
         User userT = advertisementLost.getUser();
         this.user = userT.getName() + ' ' + userT.getSurname();
     }
