@@ -23,7 +23,6 @@ public class AccessController {
 
         Cookie cookie = new Cookie("sessionId", sessionId);
         response.addCookie(cookie);
-        response.setHeader("Access-Control-Allow-Credentials", "true");
 
         user.setPassword("");
         return user;
@@ -39,7 +38,6 @@ public class AccessController {
 
         Cookie cookie = new Cookie("sessionId", sessionId);
         response.addCookie(cookie);
-        response.setHeader("Access-Control-Allow-Credentials", "true");
 
         user.setPassword("");
         return user;
