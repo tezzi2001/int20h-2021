@@ -20,7 +20,7 @@ public class AdvertisementLost {
 
     @Lob
     @Column(name = "photo")
-    private byte[] photo;
+    private Byte[] photo;
 
     private String photoName;
 
@@ -36,7 +36,7 @@ public class AdvertisementLost {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public AdvertisementLost(String title, String description, byte[] photo, String photoName, String location, String phone, String species, Date date, User user) {
+    public AdvertisementLost(String title, String description, Byte[] photo, String photoName, String location, String phone, String species, Date date, User user) {
         this.title = title;
         this.description = description;
         this.photo = photo;

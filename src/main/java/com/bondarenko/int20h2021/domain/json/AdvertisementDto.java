@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -28,14 +29,14 @@ public class AdvertisementDto {
 
     @SneakyThrows
     public AdvertisementLost toAdvertisementLost(User user, MultipartFile photo) {
-        byte[] bytes;
+        Byte[] bytes;
         String originalFileName;
 
         if (photo == null) {
             bytes = null;
             originalFileName = null;
         } else {
-            bytes = photo.getBytes();
+            bytes = getByteObjects(photo);
             originalFileName = photo.getOriginalFilename();
         }
 
@@ -56,5 +57,21 @@ public class AdvertisementDto {
         }
 
         return new AdvertisementFound(title, description, bytes, originalFileName, location, phone, species, new Date(), user);
+    }
+
+    private Byte[] getByteObjects(MultipartFile file) {
+        try {
+            Byte[] byteObjects = new Byte[file.getBytes().length];
+
+            int i = 0;
+
+            for (byte b : file.getBytes()){
+                byteObjects[i++] = b;
+            }
+            return byteObjects;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new Byte[0];
+        }
     }
 }
