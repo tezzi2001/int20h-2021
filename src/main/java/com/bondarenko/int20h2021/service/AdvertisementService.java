@@ -40,12 +40,24 @@ public class AdvertisementService {
 
     }
 
-    public void deleteAdvertisementLostById(long id) {
-        advertisementLostRepository.deleteById(id);
+    public void deleteAdvertisementLostById(long id, String email) {
+        Optional<AdvertisementLost> advertisementLostOptional = advertisementLostRepository.findById(id);
+        if (advertisementLostOptional.isPresent()) {
+            AdvertisementLost advertisementLost = advertisementLostOptional.get();
+            if (advertisementLost.getUser().getEmail().equals(email)) {
+                advertisementLostRepository.deleteById(id);
+            }
+        }
     }
 
-    public void deleteAdvertisementFoundById(long id) {
-        advertisementFoundRepository.deleteById(id);
+    public void deleteAdvertisementFoundById(long id, String email) {
+        Optional<AdvertisementFound> advertisementFoundOptional = advertisementFoundRepository.findById(id);
+        if (advertisementFoundOptional.isPresent()) {
+            AdvertisementFound advertisementFound = advertisementFoundOptional.get();
+            if (advertisementFound.getUser().getEmail().equals(email)) {
+                advertisementFoundRepository.deleteById(id);
+            }
+        }
     }
 
     public List<AdvertisementJson> getAllAdvertisementFoundJson() {

@@ -4,9 +4,7 @@ import com.bondarenko.int20h2021.domain.json.AdvertisementDto;
 import com.bondarenko.int20h2021.domain.json.AdvertisementJson;
 import com.bondarenko.int20h2021.service.AdvertisementService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,27 +14,31 @@ public class AdvertisementController {
     private final AdvertisementService advertisementService;
 
     @PostMapping("/createAdvertisementLost")
-    public void createAdvertisementLost(@RequestBody AdvertisementDto advertisementDto) {
-        advertisementService.createAdvertisementLost(advertisementDto, advertisementDto.getEmail());
+    public void createAdvertisementLost(@RequestBody AdvertisementDto advertisementDto, @CookieValue("sessionId") String sessionId) {
+        advertisementService.createAdvertisementLost(advertisementDto, sessionId.split("$")[0]);
     }
 
     @PostMapping("/createAdvertisementFound")
-    public void createAdvertisementFound(@RequestBody AdvertisementDto advertisementDto) {
-        advertisementService.createAdvertisementFound(advertisementDto, advertisementDto.getEmail());
+    public void createAdvertisementFound(@RequestBody AdvertisementDto advertisementDto, @CookieValue("sessionId") String sessionId) {
+        advertisementService.createAdvertisementFound(advertisementDto, sessionId.split("$")[0]);
     }
 
-    public void deleteAdvertisementLostById(long id) {
-        advertisementService.deleteAdvertisementLostById(id);
+    @GetMapping("/deleteAdvertisementLostById")
+    public void deleteAdvertisementLostById(@RequestParam long id, @CookieValue("sessionId") String sessionId) {
+        advertisementService.deleteAdvertisementLostById(id, sessionId.split("$")[0]);
     }
 
-    public void deleteAdvertisementFoundById(long id) {
-        advertisementService.deleteAdvertisementFoundById(id);
+    @GetMapping("/deleteAdvertisementFoundById")
+    public void deleteAdvertisementFoundById(@RequestParam long id, @CookieValue("sessionId") String sessionId) {
+        advertisementService.deleteAdvertisementFoundById(id, sessionId.split("$")[0]);
     }
 
+    @GetMapping("/getAllAdvertisementFoundJson")
     public List<AdvertisementJson> getAllAdvertisementFoundJson() {
         return advertisementService.getAllAdvertisementFoundJson();
     }
 
+    @GetMapping("/getAllAdvertisementLostJson")
     public List<AdvertisementJson> getAllAdvertisementLostJson() {
         return advertisementService.getAllAdvertisementLostJson();
     }

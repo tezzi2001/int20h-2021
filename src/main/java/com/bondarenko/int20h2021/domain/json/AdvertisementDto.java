@@ -26,8 +26,6 @@ public class AdvertisementDto {
 
     private String species;
 
-    private String email;
-
     @SneakyThrows
     public AdvertisementLost toAdvertisementLost(User user) {
         return new AdvertisementLost(title, description, photo.getBytes(), photo.getOriginalFilename(), location, phone, species, user);
