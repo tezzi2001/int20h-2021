@@ -10,6 +10,7 @@ import com.bondarenko.int20h2021.repository.AdvertisementLostRepository;
 import com.bondarenko.int20h2021.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class AdvertisementService {
     private final AdvertisementLostRepository advertisementLostRepository;
     private final AdvertisementFoundRepository advertisementFoundRepository;
     private final UserRepository userRepository;
+    private final FilterFetchService filterFetchService;
 
     public void createAdvertisementLost(AdvertisementDto advertisementDto, MultipartFile photo, String email) {
         Optional<User> optionalUser = userRepository.findById(email);
@@ -61,14 +63,14 @@ public class AdvertisementService {
         }
     }
 
-    public List<AdvertisementJson> getAllAdvertisementFoundJson() {
+    public List<AdvertisementJson> getAllAdvertisementFound(MultiValueMap<String, String> filters) {
         List<AdvertisementFound> advertisementsFound = advertisementFoundRepository.findAll();
         return advertisementsFound.stream()
                 .map(AdvertisementJson::new)
                 .collect(Collectors.toList());
     }
 
-    public List<AdvertisementJson> getAllAdvertisementLostJson() {
+    public List<AdvertisementJson> getAllAdvertisementLost(MultiValueMap<String, String> filters) {
         List<AdvertisementLost> advertisementsLost = advertisementLostRepository.findAll();
         return advertisementsLost.stream()
                 .map(AdvertisementJson::new)

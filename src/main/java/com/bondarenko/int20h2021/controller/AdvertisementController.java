@@ -4,6 +4,7 @@ import com.bondarenko.int20h2021.domain.json.AdvertisementDto;
 import com.bondarenko.int20h2021.domain.json.AdvertisementJson;
 import com.bondarenko.int20h2021.service.AdvertisementService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,13 +38,13 @@ public class AdvertisementController {
         advertisementService.deleteAdvertisementFoundById(id, getAuthorizationHeader(request));
     }
 
-    @GetMapping("/getAllAdvertisementFoundJson")
-    public List<AdvertisementJson> getAllAdvertisementFoundJson() {
-        return advertisementService.getAllAdvertisementFoundJson();
+    @GetMapping("/getAllAdvertisementFound")
+    public List<AdvertisementJson> getAllAdvertisementFound(@RequestParam MultiValueMap<String, String> filters) {
+        return advertisementService.getAllAdvertisementFound(filters);
     }
 
-    @GetMapping("/getAllAdvertisementLostJson")
-    public List<AdvertisementJson> getAllAdvertisementLostJson() {
-        return advertisementService.getAllAdvertisementLostJson();
+    @GetMapping("/getAllAdvertisementLost")
+    public List<AdvertisementJson> getAllAdvertisementLost(@RequestParam MultiValueMap<String, String> filters) {
+        return advertisementService.getAllAdvertisementLost(filters);
     }
 }
