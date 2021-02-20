@@ -10,6 +10,7 @@ import com.bondarenko.int20h2021.repository.AdvertisementLostRepository;
 import com.bondarenko.int20h2021.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,20 +23,20 @@ public class AdvertisementService {
     private final AdvertisementFoundRepository advertisementFoundRepository;
     private final UserRepository userRepository;
 
-    public void createAdvertisementLost(AdvertisementDto advertisementDto, String email) {
+    public void createAdvertisementLost(AdvertisementDto advertisementDto, MultipartFile photo, String email) {
         Optional<User> optionalUser = userRepository.findById(email);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            advertisementLostRepository.save(advertisementDto.toAdvertisementLost(user));
+            advertisementLostRepository.save(advertisementDto.toAdvertisementLost(user, photo));
         }
 
     }
 
-    public void createAdvertisementFound(AdvertisementDto advertisementDto, String email) {
+    public void createAdvertisementFound(AdvertisementDto advertisementDto, MultipartFile photo, String email) {
         Optional<User> optionalUser = userRepository.findById(email);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            advertisementFoundRepository.save(advertisementDto.toAdvertisementFound(user));
+            advertisementFoundRepository.save(advertisementDto.toAdvertisementFound(user, photo));
         }
 
     }

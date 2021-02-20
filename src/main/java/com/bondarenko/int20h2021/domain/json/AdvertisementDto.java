@@ -18,8 +18,6 @@ public class AdvertisementDto {
 
     private String description;
 
-    private MultipartFile photo;
-
     private String location;
 
     private String phone;
@@ -27,12 +25,12 @@ public class AdvertisementDto {
     private String species;
 
     @SneakyThrows
-    public AdvertisementLost toAdvertisementLost(User user) {
+    public AdvertisementLost toAdvertisementLost(User user, MultipartFile photo) {
         return new AdvertisementLost(title, description, photo.getBytes(), photo.getOriginalFilename(), location, phone, species, user);
     }
 
     @SneakyThrows
-    public AdvertisementFound toAdvertisementFound(User user) {
+    public AdvertisementFound toAdvertisementFound(User user, MultipartFile photo) {
         return new AdvertisementFound(title, description, photo.getBytes(), photo.getOriginalFilename(), location, phone, species, user);
     }
 }
