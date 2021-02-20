@@ -23,7 +23,17 @@ public class AdvertisementController {
     public void createAdvertisementLost(@RequestParam("advertisement") String advertisement, @RequestParam("photo") MultipartFile photo, HttpServletRequest request) {
         System.out.println("advertisement " + advertisement);
         System.out.println("photo " + photo.getOriginalFilename());
-//        advertisementService.createAdvertisementLost(advertisementDto, photo, getAuthorizationHeader(request));
+
+        String[] pairs = advertisement.replaceAll("\"", "").split(",");
+        String title = pairs[0].split(":")[1];
+        String description = pairs[1].split(":")[1];
+        String location = pairs[0].split(":")[1];
+        String phone = pairs[3].split(":")[1];
+        String species = pairs[4].split(":")[1];
+
+        AdvertisementDto advertisementDto = new AdvertisementDto(title, description, location, phone, species);
+        System.out.println("advertisementDto " + advertisementDto.toString());
+        advertisementService.createAdvertisementLost(advertisementDto, photo, getAuthorizationHeader(request));
     }
 
     @PostMapping("/createAdvertisementFound")
