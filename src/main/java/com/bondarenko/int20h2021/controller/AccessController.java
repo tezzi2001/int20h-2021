@@ -1,10 +1,12 @@
 package com.bondarenko.int20h2021.controller;
 
 import com.bondarenko.int20h2021.domain.entity.User;
+import com.bondarenko.int20h2021.domain.json.UserWithSessionId;
 import com.bondarenko.int20h2021.service.AccessService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -13,35 +15,32 @@ public class AccessController {
     private final AccessService accessService;
 
     @PostMapping("/authentication")
-    public User signIn(@RequestBody User user, HttpServletResponse response) {
+    public UserWithSessionId signIn(@RequestBody User user, HttpServletResponse response) {
         String sessionId = accessService.signIn(user);
 
         if (sessionId.equals("")) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
 
-        response.setHeader("Set-Cookie", "sessionId=" + sessionId + "; SameSite=none; Secure");
-
         user.setPassword("");
-        return user;
+        return new UserWithSessionId(user, sessionId);
     }
 
     @PostMapping("/registration")
-    public User signUp(@RequestBody User user, HttpServletResponse response) {
+    public UserWithSessionId signUp(@RequestBody User user, HttpServletResponse response) {
         String sessionId = accessService.signUp(user.getEmail(), user.getPassword(), user.getName(), user.getSurname());
 
         if (sessionId.equals("")) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
 
-        response.setHeader("Set-Cookie", "sessionId=" + sessionId + "; SameSite=none; Secure");
-
         user.setPassword("");
-        return user;
+        return new UserWithSessionId(user, sessionId);
     }
 
     @GetMapping("/fetchUser")
-    public User fetchUser(@CookieValue("sessionId") String sessionId) {
+    public User fetchUser(HttpServletRequest request) {
+        String sessionId = request.getHeader("Authorization");
         return accessService.fetchUser(sessionId.split("$")[0]);
     }
 }
