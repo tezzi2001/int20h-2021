@@ -5,7 +5,6 @@ import com.bondarenko.int20h2021.service.AccessService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -21,8 +20,7 @@ public class AccessController {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
 
-        Cookie cookie = new Cookie("sessionId", sessionId);
-        response.addCookie(cookie);
+        response.setHeader("Set-Cookie", "sessionId=" + sessionId + "; SameSite=none; Secure");
 
         user.setPassword("");
         return user;
@@ -36,8 +34,7 @@ public class AccessController {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
 
-        Cookie cookie = new Cookie("sessionId", sessionId);
-        response.addCookie(cookie);
+        response.setHeader("Set-Cookie", "sessionId=" + sessionId + "; SameSite=none; Secure");
 
         user.setPassword("");
         return user;
