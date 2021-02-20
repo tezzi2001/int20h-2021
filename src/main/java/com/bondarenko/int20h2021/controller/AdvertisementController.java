@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 import static com.bondarenko.int20h2021.filter.AddCorsResponseHeaderFilter.getAuthorizationHeader;
 
@@ -24,7 +23,10 @@ public class AdvertisementController {
         System.out.println("advertisement " + advertisement);
         System.out.println("photo " + photo.getOriginalFilename());
 
-        String[] pairs = advertisement.replaceAll("\"", "").split(",");
+        String[] pairs = advertisement
+                .replaceAll("}", "")
+                .replaceAll("\"", "")
+                .split(",");
         String title = pairs[0].split(":")[1];
         String description = pairs[1].split(":")[1];
         String location = pairs[0].split(":")[1];

@@ -6,6 +6,7 @@ import com.bondarenko.int20h2021.domain.entity.User;
 import lombok.Data;
 import lombok.SneakyThrows;
 
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
@@ -58,7 +59,12 @@ public class AdvertisementJson {
 
     @SneakyThrows
     private String createPhotoUrl(byte[] photo, String photoName) {
-        Files.write(Paths.get("download/" + photoName), photo);
-        return "";
+        InputStream inputStream = new ByteArrayInputStream(photo);
+
+        File targetFile = new File("src/main/resources/targetFile.tmp");
+        OutputStream outStream = new FileOutputStream(targetFile);
+        outStream.write(photo);
+
+        return targetFile.toURI().toURL().toString();
     }
 }
