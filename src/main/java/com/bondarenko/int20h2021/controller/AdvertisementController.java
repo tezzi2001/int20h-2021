@@ -47,4 +47,10 @@ public class AdvertisementController {
     public List<AdvertisementJson> getAllAdvertisementLost(@RequestParam MultiValueMap<String, String> filters) {
         return advertisementService.getAllAdvertisementLost(filters);
     }
+
+    @PostMapping("/uploadImg")
+    public void uploadImg(MultipartFile photo) {
+        System.out.println("filename:" + photo.getOriginalFilename());
+
+    }
 }
