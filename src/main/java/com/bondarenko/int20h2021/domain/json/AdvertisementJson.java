@@ -4,10 +4,7 @@ import com.bondarenko.int20h2021.domain.entity.AdvertisementFound;
 import com.bondarenko.int20h2021.domain.entity.AdvertisementLost;
 import com.bondarenko.int20h2021.domain.entity.User;
 import lombok.Data;
-import lombok.SneakyThrows;
 
-import java.io.FileOutputStream;
-import java.util.Arrays;
 import java.util.Date;
 
 @Data
@@ -34,7 +31,7 @@ public class AdvertisementJson {
         this.id = advertisementFound.getId();
         this.title = advertisementFound.getTitle();
         this.description = advertisementFound.getDescription();
-        this.photoUrl = createPhotoUrl(advertisementFound.getPhoto(), advertisementFound.getPhotoName());
+        this.photoUrl = advertisementFound.getPhotoName();
         this.location = advertisementFound.getLocation();
         this.phone = advertisementFound.getPhone();
         this.species = advertisementFound.getSpecies();
@@ -47,17 +44,12 @@ public class AdvertisementJson {
         this.id = advertisementLost.getId();
         this.title = advertisementLost.getTitle();
         this.description = advertisementLost.getDescription();
-        this.photoUrl = createPhotoUrl(advertisementLost.getPhoto(), advertisementLost.getPhotoName());
+        this.photoUrl = advertisementLost.getPhotoName();
         this.location = advertisementLost.getLocation();
         this.phone = advertisementLost.getPhone();
         this.species = advertisementLost.getSpecies();
         this.date = advertisementLost.getDate();
         User userT = advertisementLost.getUser();
         this.user = userT.getName() + ' ' + userT.getSurname();
-    }
-
-    @SneakyThrows
-    private String createPhotoUrl(byte[] photo, String photoName) {
-        return "";
     }
 }
