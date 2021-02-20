@@ -8,5 +8,5 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class Cities {
-    private List<City> cities;
+    private List<String> cities;
 }

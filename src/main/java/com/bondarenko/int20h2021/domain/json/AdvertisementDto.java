@@ -26,8 +26,6 @@ public class AdvertisementDto {
 
     private String species;
 
-    private Date date;
-
     @SneakyThrows
     public AdvertisementLost toAdvertisementLost(User user, MultipartFile photo) {
         byte[] bytes;
@@ -41,7 +39,7 @@ public class AdvertisementDto {
             originalFileName = photo.getOriginalFilename();
         }
 
-        return new AdvertisementLost(title, description, bytes, originalFileName, location, phone, species, date, user);
+        return new AdvertisementLost(title, description, bytes, originalFileName, location, phone, species, new Date(), user);
     }
 
     @SneakyThrows
@@ -57,6 +55,6 @@ public class AdvertisementDto {
             originalFileName = photo.getOriginalFilename();
         }
 
-        return new AdvertisementFound(title, description, bytes, originalFileName, location, phone, species, date, user);
+        return new AdvertisementFound(title, description, bytes, originalFileName, location, phone, species, new Date(), user);
     }
 }

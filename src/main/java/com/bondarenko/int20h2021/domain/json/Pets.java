@@ -8,5 +8,5 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class Pets {
-    private List<Pet> pets;
+    private List<String> pets;
 }
