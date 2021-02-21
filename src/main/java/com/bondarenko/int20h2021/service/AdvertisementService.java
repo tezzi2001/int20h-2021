@@ -9,11 +9,10 @@ import com.bondarenko.int20h2021.repository.AdvertisementFoundRepository;
 import com.bondarenko.int20h2021.repository.AdvertisementLostRepository;
 import com.bondarenko.int20h2021.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -80,5 +79,27 @@ public class AdvertisementService {
         return advertisementsLost.stream()
                 .map(AdvertisementJson::new)
                 .collect(Collectors.toList());
+    }
+
+    public List<Long> getAdvertisementFoundByEmail(String email) {
+        Optional<User> optionalUser = userRepository.findById(email);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            List<AdvertisementFound> advertisementFoundList = advertisementFoundRepository.findAllByUser(user);
+            return advertisementFoundList.stream().map(AdvertisementFound::getId).collect(Collectors.toList());
+        }
+
+        return new ArrayList<>();
+    }
+
+    public List<Long> getAdvertisementLostByEmail(String email) {
+        Optional<User> optionalUser = userRepository.findById(email);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            List<AdvertisementLost> advertisementLostList = advertisementLostRepository.findAllByUser(user);
+            return advertisementLostList.stream().map(AdvertisementLost::getId).collect(Collectors.toList());
+        }
+
+        return new ArrayList<>();
     }
 }
