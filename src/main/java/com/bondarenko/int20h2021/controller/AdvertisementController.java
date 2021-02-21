@@ -46,16 +46,4 @@ public class AdvertisementController {
     public List<AdvertisementJson> getAllAdvertisementLost(@RequestParam MultiValueMap<String, String> filters) {
         return advertisementService.getAllAdvertisementLost(filters);
     }
-
-    @GetMapping("/searchLost")
-    public List<AdvertisementJson> searchLost(@RequestParam String query) {
-        String[] keyWords = query.replaceAll(",", "").split(" ");
-        return advertisementService.searchLost(keyWords);
-    }
-
-    @GetMapping("/searchFound")
-    public List<AdvertisementJson> searchFound(@RequestParam String query) {
-        String[] keyWords = query.replaceAll(",", "").split(" ");
-        return advertisementService.searchFound(keyWords);
-    }
 }

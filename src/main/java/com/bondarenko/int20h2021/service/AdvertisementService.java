@@ -66,6 +66,13 @@ public class AdvertisementService {
         List<AdvertisementFound> advertisementsFound = advertisementFoundRepository.findAll();
 
         if (filters != null) {
+
+            if (filters.containsKey("query")) {
+                String query = filters.getFirst("query");
+                String[] keyWords = query.replaceAll(",", "").split(" ");
+                advertisementsFound = searchFound(keyWords);
+            }
+
             if (filters.containsKey("city")) {
                 List<String> cities = filters.get("city");
                 advertisementsFound = advertisementsFound.stream()
@@ -91,6 +98,13 @@ public class AdvertisementService {
         List<AdvertisementLost> advertisementsLost = advertisementLostRepository.findAll();
 
         if (filters != null) {
+
+            if (filters.containsKey("query")) {
+                String query = filters.getFirst("query");
+                String[] keyWords = query.replaceAll(",", "").split(" ");
+                advertisementsLost = searchLost(keyWords);
+            }
+
             if (filters.containsKey("city")) {
                 List<String> cities = filters.get("city");
                 advertisementsLost = advertisementsLost.stream()
@@ -140,14 +154,14 @@ public class AdvertisementService {
         return new ArrayList<>();
     }
 
-    public List<AdvertisementJson> searchLost(String[] keyWords) {
-        List<AdvertisementJson> allAdvertisementLost = getAllAdvertisementLost(null);
-        ArrayList<AdvertisementJson> result = new ArrayList<>();
+    private List<AdvertisementLost> searchLost(String[] keyWords) {
+        List<AdvertisementLost> allAdvertisementLost = advertisementLostRepository.findAll();
+        ArrayList<AdvertisementLost> result = new ArrayList<>();
 
-        for (AdvertisementJson advertisementJson : allAdvertisementLost) {
+        for (AdvertisementLost advertisementLost : allAdvertisementLost) {
             for (String keyWord : keyWords) {
-                if (advertisementJson.getTitle().contains(keyWord) || advertisementJson.getDescription().contains(keyWord)) {
-                    result.add(advertisementJson);
+                if (advertisementLost.getTitle().contains(keyWord) || advertisementLost.getDescription().contains(keyWord)) {
+                    result.add(advertisementLost);
                 }
             }
         }
@@ -157,14 +171,14 @@ public class AdvertisementService {
                 .collect(Collectors.toList());
     }
 
-    public List<AdvertisementJson> searchFound(String[] keyWords) {
-        List<AdvertisementJson> allAdvertisementFound = getAllAdvertisementFound(null);
-        ArrayList<AdvertisementJson> result = new ArrayList<>();
+    private List<AdvertisementFound> searchFound(String[] keyWords) {
+        List<AdvertisementFound> allAdvertisementFound = advertisementFoundRepository.findAll();
+        ArrayList<AdvertisementFound> result = new ArrayList<>();
 
-        for (AdvertisementJson advertisementJson : allAdvertisementFound) {
+        for (AdvertisementFound advertisementFound : allAdvertisementFound) {
             for (String keyWord : keyWords) {
-                if (advertisementJson.getTitle().contains(keyWord) || advertisementJson.getDescription().contains(keyWord)) {
-                    result.add(advertisementJson);
+                if (advertisementFound.getTitle().contains(keyWord) || advertisementFound.getDescription().contains(keyWord)) {
+                    result.add(advertisementFound);
                 }
             }
         }
