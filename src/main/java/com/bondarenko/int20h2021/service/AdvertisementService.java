@@ -23,7 +23,6 @@ public class AdvertisementService {
     private final AdvertisementLostRepository advertisementLostRepository;
     private final AdvertisementFoundRepository advertisementFoundRepository;
     private final UserRepository userRepository;
-    private final FilterFetchService filterFetchService;
 
     public void createAdvertisementLost(AdvertisementDto advertisementDto, String email) {
         Optional<User> optionalUser = userRepository.findById(email);
@@ -66,24 +65,26 @@ public class AdvertisementService {
     public List<AdvertisementJson> getAllAdvertisementFound(MultiValueMap<String, String> filters) {
         List<AdvertisementFound> advertisementsFound = advertisementFoundRepository.findAll();
 
-        if (filters.containsKey("city")) {
-            List<String> cities = filters.get("city");
-            advertisementsFound = advertisementsFound.stream()
-                    .filter(advertisementFound -> cities.contains(advertisementFound.getLocation()))
-                    .collect(Collectors.toList());
-        }
+        if (filters != null) {
+            if (filters.containsKey("city")) {
+                List<String> cities = filters.get("city");
+                advertisementsFound = advertisementsFound.stream()
+                        .filter(advertisementFound -> cities.contains(advertisementFound.getLocation()))
+                        .collect(Collectors.toList());
+            }
 
-        if (filters.containsKey("pet")) {
-            List<String> pets = filters.get("pet");
-            advertisementsFound = advertisementsFound.stream()
-                    .filter(advertisementFound -> pets.contains(advertisementFound.getSpecies()))
-                    .collect(Collectors.toList());
-        }
+            if (filters.containsKey("pet")) {
+                List<String> pets = filters.get("pet");
+                advertisementsFound = advertisementsFound.stream()
+                        .filter(advertisementFound -> pets.contains(advertisementFound.getSpecies()))
+                        .collect(Collectors.toList());
+            }
 
-        if (filters.containsKey("hasPhoto")) {
-            advertisementsFound = advertisementsFound.stream()
-                    .filter(advertisementFound -> advertisementFound.getPhotoName() != null && !"".equals(advertisementFound.getPhotoName()))
-                    .collect(Collectors.toList());
+            if (filters.containsKey("hasPhoto")) {
+                advertisementsFound = advertisementsFound.stream()
+                        .filter(advertisementFound -> advertisementFound.getPhotoName() != null && !"".equals(advertisementFound.getPhotoName()))
+                        .collect(Collectors.toList());
+            }
         }
 
         return advertisementsFound.stream()
@@ -118,5 +119,35 @@ public class AdvertisementService {
         }
 
         return new ArrayList<>();
+    }
+
+    public List<AdvertisementJson> searchLost(String[] keyWords) {
+        List<AdvertisementJson> allAdvertisementLost = getAllAdvertisementLost(null);
+        ArrayList<AdvertisementJson> result = new ArrayList<>();
+
+        for (AdvertisementJson advertisementJson : allAdvertisementLost) {
+            for (String keyWord : keyWords) {
+                if (advertisementJson.getTitle().contains(keyWord) || advertisementJson.getDescription().contains(keyWord)) {
+                    result.add(advertisementJson);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public List<AdvertisementJson> searchFound(String[] keyWords) {
+        List<AdvertisementJson> allAdvertisementFound = getAllAdvertisementFound(null);
+        ArrayList<AdvertisementJson> result = new ArrayList<>();
+
+        for (AdvertisementJson advertisementJson : allAdvertisementFound) {
+            for (String keyWord : keyWords) {
+                if (advertisementJson.getTitle().contains(keyWord) || advertisementJson.getDescription().contains(keyWord)) {
+                    result.add(advertisementJson);
+                }
+            }
+        }
+
+        return result;
     }
 }
