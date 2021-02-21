@@ -79,16 +79,11 @@ public class AdvertisementService {
                         .filter(advertisementFound -> pets.contains(advertisementFound.getSpecies()))
                         .collect(Collectors.toList());
             }
-
-            if (filters.containsKey("hasPhoto")) {
-                advertisementsFound = advertisementsFound.stream()
-                        .filter(advertisementFound -> advertisementFound.getPhotoName() != null && !"".equals(advertisementFound.getPhotoName()))
-                        .collect(Collectors.toList());
-            }
         }
 
         return advertisementsFound.stream()
                 .map(AdvertisementJson::new)
+                .sorted((ad2, ad1) -> ad1.getDate().compareTo(ad2.getDate()))
                 .collect(Collectors.toList());
     }
 
@@ -109,16 +104,11 @@ public class AdvertisementService {
                         .filter(advertisementLost -> pets.contains(advertisementLost.getSpecies()))
                         .collect(Collectors.toList());
             }
-
-            if (filters.containsKey("hasPhoto")) {
-                advertisementsLost = advertisementsLost.stream()
-                        .filter(advertisementLost -> advertisementLost.getPhotoName() != null && !"".equals(advertisementLost.getPhotoName()))
-                        .collect(Collectors.toList());
-            }
         }
 
         return advertisementsLost.stream()
                 .map(AdvertisementJson::new)
+                .sorted((ad2, ad1) -> ad1.getDate().compareTo(ad2.getDate()))
                 .collect(Collectors.toList());
     }
 
@@ -127,7 +117,10 @@ public class AdvertisementService {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             List<AdvertisementFound> advertisementFoundList = advertisementFoundRepository.findAllByUser(user);
-            return advertisementFoundList.stream().map(AdvertisementFound::getId).collect(Collectors.toList());
+            return advertisementFoundList.stream()
+                    .sorted((ad2, ad1) -> ad1.getDate().compareTo(ad2.getDate()))
+                    .map(AdvertisementFound::getId)
+                    .collect(Collectors.toList());
         }
 
         return new ArrayList<>();
@@ -138,7 +131,10 @@ public class AdvertisementService {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             List<AdvertisementLost> advertisementLostList = advertisementLostRepository.findAllByUser(user);
-            return advertisementLostList.stream().map(AdvertisementLost::getId).collect(Collectors.toList());
+            return advertisementLostList.stream()
+                    .sorted((ad2, ad1) -> ad1.getDate().compareTo(ad2.getDate()))
+                    .map(AdvertisementLost::getId)
+                    .collect(Collectors.toList());
         }
 
         return new ArrayList<>();
@@ -156,7 +152,9 @@ public class AdvertisementService {
             }
         }
 
-        return result;
+        return result.stream()
+                .sorted((ad2, ad1) -> ad1.getDate().compareTo(ad2.getDate()))
+                .collect(Collectors.toList());
     }
 
     public List<AdvertisementJson> searchFound(String[] keyWords) {
@@ -171,6 +169,8 @@ public class AdvertisementService {
             }
         }
 
-        return result;
+        return result.stream()
+                .sorted((ad2, ad1) -> ad1.getDate().compareTo(ad2.getDate()))
+                .collect(Collectors.toList());
     }
 }

@@ -65,8 +65,11 @@ public class FilterFetchService {
         animals.add("Бик");
         animals.add("Черепаха");
         animals.add("Змія");
-        animals.add( "Тигр");
+        animals.add("Тигр");
         animals.add("Папуга");
+        animals.add("Свиня");
+        animals.add("Курка");
+        animals.add("Півенб");
         return new Pets(animals);
     }
 }
