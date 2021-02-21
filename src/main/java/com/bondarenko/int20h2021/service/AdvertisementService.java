@@ -94,6 +94,29 @@ public class AdvertisementService {
 
     public List<AdvertisementJson> getAllAdvertisementLost(MultiValueMap<String, String> filters) {
         List<AdvertisementLost> advertisementsLost = advertisementLostRepository.findAll();
+
+        if (filters != null) {
+            if (filters.containsKey("city")) {
+                List<String> cities = filters.get("city");
+                advertisementsLost = advertisementsLost.stream()
+                        .filter(advertisementLost -> cities.contains(advertisementLost.getLocation()))
+                        .collect(Collectors.toList());
+            }
+
+            if (filters.containsKey("pet")) {
+                List<String> pets = filters.get("pet");
+                advertisementsLost = advertisementsLost.stream()
+                        .filter(advertisementLost -> pets.contains(advertisementLost.getSpecies()))
+                        .collect(Collectors.toList());
+            }
+
+            if (filters.containsKey("hasPhoto")) {
+                advertisementsLost = advertisementsLost.stream()
+                        .filter(advertisementLost -> advertisementLost.getPhotoName() != null && !"".equals(advertisementLost.getPhotoName()))
+                        .collect(Collectors.toList());
+            }
+        }
+
         return advertisementsLost.stream()
                 .map(AdvertisementJson::new)
                 .collect(Collectors.toList());
