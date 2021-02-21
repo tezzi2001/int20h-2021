@@ -4,7 +4,6 @@ import com.bondarenko.int20h2021.domain.json.AdvertisementDto;
 import com.bondarenko.int20h2021.domain.json.AdvertisementJson;
 import com.bondarenko.int20h2021.service.AdvertisementService;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
