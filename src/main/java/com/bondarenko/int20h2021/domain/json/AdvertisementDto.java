@@ -27,10 +27,10 @@ public class AdvertisementDto {
     private String url;
 
     public AdvertisementLost toAdvertisementLost(User user) {
-        return new AdvertisementLost(title, description, new byte[0], url, location, phone, species, new Date(), user);
+        return new AdvertisementLost(title, description, url, location, phone, species, new Date(), user);
     }
 
     public AdvertisementFound toAdvertisementFound(User user) {
-        return new AdvertisementFound(title, description, new byte[0], url, location, phone, species, new Date(), user);
+        return new AdvertisementFound(title, description, url, location, phone, species, new Date(), user);
     }
 }
