@@ -64,11 +64,28 @@ public class AdvertisementService {
     }
 
     public List<AdvertisementJson> getAllAdvertisementFound(MultiValueMap<String, String> filters) {
+        List<AdvertisementFound> advertisementsFound = advertisementFoundRepository.findAll();
+
         if (filters.containsKey("city")) {
             List<String> cities = filters.get("city");
-//            advertisementFoundRepository.findAll(new PageRequest());
+            advertisementsFound = advertisementsFound.stream()
+                    .filter(advertisementFound -> cities.contains(advertisementFound.getLocation()))
+                    .collect(Collectors.toList());
         }
-        List<AdvertisementFound> advertisementsFound = advertisementFoundRepository.findAll();
+
+        if (filters.containsKey("pet")) {
+            List<String> pets = filters.get("pet");
+            advertisementsFound = advertisementsFound.stream()
+                    .filter(advertisementFound -> pets.contains(advertisementFound.getSpecies()))
+                    .collect(Collectors.toList());
+        }
+
+        if (filters.containsKey("hasPhoto")) {
+            advertisementsFound = advertisementsFound.stream()
+                    .filter(advertisementFound -> advertisementFound.getPhotoName() != null && !"".equals(advertisementFound.getPhotoName()))
+                    .collect(Collectors.toList());
+        }
+
         return advertisementsFound.stream()
                 .map(AdvertisementJson::new)
                 .collect(Collectors.toList());
