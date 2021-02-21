@@ -187,4 +187,28 @@ public class AdvertisementService {
                 .sorted((ad2, ad1) -> ad1.getDate().compareTo(ad2.getDate()))
                 .collect(Collectors.toList());
     }
+
+    public List<AdvertisementJson> getAllFoundByPhotoUrls(List<String> urls) {
+        ArrayList<AdvertisementJson> advertisements = new ArrayList<>();
+        for (String url : urls) {
+            Optional<AdvertisementFound> advertisementFoundOptional = advertisementFoundRepository.findByPhotoName(url);
+            if (advertisementFoundOptional.isPresent()) {
+                AdvertisementFound advertisementFound = advertisementFoundOptional.get();
+                advertisements.add(new AdvertisementJson(advertisementFound));
+            }
+        }
+        return advertisements;
+    }
+
+    public List<AdvertisementJson> getAllLostByPhotoUrls(List<String> urls) {
+        ArrayList<AdvertisementJson> advertisements = new ArrayList<>();
+        for (String url : urls) {
+            Optional<AdvertisementLost> advertisementLostOptional = advertisementLostRepository.findByPhotoName(url);
+            if (advertisementLostOptional.isPresent()) {
+                AdvertisementLost advertisementLost = advertisementLostOptional.get();
+                advertisements.add(new AdvertisementJson(advertisementLost));
+            }
+        }
+        return advertisements;
+    }
 }
