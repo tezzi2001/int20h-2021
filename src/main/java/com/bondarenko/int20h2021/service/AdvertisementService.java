@@ -26,20 +26,20 @@ public class AdvertisementService {
     private final UserRepository userRepository;
     private final FilterFetchService filterFetchService;
 
-    public void createAdvertisementLost(AdvertisementDto advertisementDto, MultipartFile photo, String email) {
+    public void createAdvertisementLost(AdvertisementDto advertisementDto, String email) {
         Optional<User> optionalUser = userRepository.findById(email);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            advertisementLostRepository.save(advertisementDto.toAdvertisementLost(user, photo));
+            advertisementLostRepository.save(advertisementDto.toAdvertisementLost(user));
         }
 
     }
 
-    public void createAdvertisementFound(AdvertisementDto advertisementDto, MultipartFile photo, String email) {
+    public void createAdvertisementFound(AdvertisementDto advertisementDto, String email) {
         Optional<User> optionalUser = userRepository.findById(email);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            advertisementFoundRepository.save(advertisementDto.toAdvertisementFound(user, photo));
+            advertisementFoundRepository.save(advertisementDto.toAdvertisementFound(user));
         }
 
     }
